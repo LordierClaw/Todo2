@@ -4,4 +4,16 @@
     <string name="calendar">Calendar</string>
     <string name="mine">Mine</string>
     <string name="menu">Menu</string>
+    <string name="input_new_task_here">Input new task here</string>
+    <string name="no_category">No Category</string>
+    <string name="no_date">No Date</string>
+    <string name="today">Today</string>
+    <string name="tomorrow">Tomorrow</string>
+    <string name="_3_days_later">3 Days Later</string>
+    <string name="next_week">Next Week</string>
+    <string name="time">Time</string>
+    <string name="none">None</string>
+    <string name="repeat">Repeat</string>
+    <string name="done">DONE</string>
+    <string name="cancel">Cancel</string>
 </resources>
