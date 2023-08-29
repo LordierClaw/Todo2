@@ -24,6 +24,8 @@
             android:id="@+id/bottom_nav"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:menu="@menu/bottom_nav_menu"
+            app:labelVisibilityMode="labeled"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -33,7 +35,8 @@
             app:layout_constraintBottom_toBottomOf="@id/nav_host"
             app:layout_constraintEnd_toEndOf="@id/nav_host"
             android:layout_marginBottom="16dp"
-            android:layout_marginEnd="16dp"/>
+            android:layout_marginEnd="16dp"
+            android:src="@drawable/ic_add"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
