@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/drawer_category_menu"
+        android:title="@string/category">
+        <menu>
+            <item android:id="@+id/drawer_category_all"
+                android:title="@string/all"
+                android:icon="@drawable/ic_list_alt"/>
+        </menu>
+    </item>
+
+    <item android:id="@+id/drawer_theme_menu"
+        android:title="@string/theme"
+        android:icon="@drawable/ic_color_len"/>
+
+    <item android:id="@+id/drawer_donate_menu"
+        android:title="@string/donate"
+        android:icon="@drawable/ic_heart"/>
+
+    <item android:id="@+id/drawer_info_menu"
+        android:title="@string/about"
+        android:icon="@drawable/ic_info"/>
+
+    <item android:id="@+id/drawer_setting_menu"
+        android:title="@string/settings"
+        android:icon="@drawable/ic_setting"/>
+
+</menu>

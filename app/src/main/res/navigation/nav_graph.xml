@@ -20,4 +20,9 @@
         android:name="me.lordierclaw.todo2.MineFragment"
         android:label="fragment_mine"
         tools:layout="@layout/fragment_mine" />
+    <fragment
+        android:id="@+id/taskDetailFragment"
+        android:name="me.lordierclaw.todo2.TaskDetailFragment"
+        android:label="fragment_task_detail"
+        tools:layout="@layout/fragment_task_detail" />
 </navigation>
