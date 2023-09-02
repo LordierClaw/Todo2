@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:paddingHorizontal="16dp"
-    tools:context=".TaskDetailFragment">
+    tools:context=".screen.task.TaskDetailFragment">
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
@@ -33,7 +33,7 @@
         android:layout_height="wrap_content"
         tools:text="This is a title"
         android:textSize="20sp"
-        android:background=""/>
+        android:background="@android:color/transparent"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/task_detail_subtask_rcv"
@@ -50,7 +50,7 @@
         android:textAlignment="viewStart"
         app:icon="@drawable/ic_add"
         style="?attr/materialButtonOutlinedStyle"
-        android:background="null"/>
+        android:background="@android:color/transparent"/>
 
     <LinearLayout
         android:id="@+id/task_detail_due_date_btn"
@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:textStyle="bold"
             android:layout_marginStart="16dp"
-            android:text="Reminder at"/>
+            android:text="@string/reminder_at"/>
 
         <TextView
             android:id="@+id/task_detail_reminder_txt"

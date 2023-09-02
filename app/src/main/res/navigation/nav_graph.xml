@@ -7,22 +7,22 @@
 
     <fragment
         android:id="@+id/allTaskFragment"
-        android:name="me.lordierclaw.todo2.AllTaskFragment"
+        android:name="me.lordierclaw.todo2.screen.task.AllTaskFragment"
         android:label="fragment_all_task"
         tools:layout="@layout/fragment_all_task" />
     <fragment
         android:id="@+id/calendarFragment"
-        android:name="me.lordierclaw.todo2.CalendarFragment"
+        android:name="me.lordierclaw.todo2.screen.calendar.CalendarFragment"
         android:label="fragment_calendar"
         tools:layout="@layout/fragment_calendar" />
     <fragment
         android:id="@+id/mineFragment"
-        android:name="me.lordierclaw.todo2.MineFragment"
+        android:name="me.lordierclaw.todo2.screen.mine.MineFragment"
         android:label="fragment_mine"
         tools:layout="@layout/fragment_mine" />
     <fragment
         android:id="@+id/taskDetailFragment"
-        android:name="me.lordierclaw.todo2.TaskDetailFragment"
+        android:name="me.lordierclaw.todo2.screen.task.TaskDetailFragment"
         android:label="fragment_task_detail"
         tools:layout="@layout/fragment_task_detail" />
 </navigation>

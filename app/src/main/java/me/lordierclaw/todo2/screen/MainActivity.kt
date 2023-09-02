@@ -1,10 +1,11 @@
-package me.lordierclaw.todo2
+package me.lordierclaw.todo2.screen
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import me.lordierclaw.todo2.R
 import me.lordierclaw.todo2.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
