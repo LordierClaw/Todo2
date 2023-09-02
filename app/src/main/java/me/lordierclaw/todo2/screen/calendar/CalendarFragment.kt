@@ -1,10 +1,10 @@
 package me.lordierclaw.todo2.screen.calendar
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import me.lordierclaw.todo2.databinding.FragmentCalendarBinding
 
 class CalendarFragment : Fragment() {
