@@ -2,11 +2,14 @@ package me.lordierclaw.todo2.screen.task.dialog
 
 import android.content.DialogInterface
 import android.os.Bundle
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.PopupMenu
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import me.lordierclaw.todo2.databinding.DialogAddTaskBinding
+import me.lordierclaw.todo2.screen.CallbackResult
 import java.util.Date
 
 class AddTaskDialogFragment : BottomSheetDialogFragment() {
@@ -26,17 +29,27 @@ class AddTaskDialogFragment : BottomSheetDialogFragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.dialogAddTaskCalendarBtn.setOnClickListener {
-            val dateDialog = DatetimePickerDialogFragment.newInstance(object : IDatetimePickerListener {
-                override fun onFinish(result: Int, date: Date?, repeat: Int?) {
-                }
-            })
-            dateDialog.show(parentFragmentManager, "datetime_picker_dialog")
-        }
-        binding.dialogAddTaskAddBtn.setOnClickListener {
-            listener?.onFinish(CallbackResult.SUCCESS, null)
-            super.dismiss()
-        }
+        binding.dialogAddTaskCalendarBtn.setOnClickListener { calendarBtnOnClick() }
+        binding.dialogAddTaskAddBtn.setOnClickListener { addTaskBtnOnClick() }
+        binding.dialogAddTaskCategoryBtn.setOnClickListener { showCategoryMenu(it) }
+    }
+
+    private fun addTaskBtnOnClick() {
+        listener?.onFinish(CallbackResult.SUCCESS, null)
+        super.dismiss()
+    }
+
+    private fun calendarBtnOnClick() {
+        val dateDialog = DatetimePickerDialogFragment.newInstance(object : IDatetimePickerListener {
+            override fun onFinish(result: Int, date: Date?, repeat: Int?) {
+            }
+        })
+        dateDialog.show(parentFragmentManager, "datetime_picker_dialog")
+    }
+
+    private fun showCategoryMenu(view: View) {
+        val popup = PopupMenu(context, view, Gravity.TOP)
+        // popup.show()
     }
 
     override fun onDismiss(dialog: DialogInterface) {
