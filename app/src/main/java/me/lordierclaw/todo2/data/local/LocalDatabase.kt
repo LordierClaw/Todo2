@@ -1,25 +1,25 @@
-package me.lordierclaw.todo2.data.database
+package me.lordierclaw.todo2.data.local
 
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import me.lordierclaw.todo2.data.dao.AttachmentDao
-import me.lordierclaw.todo2.data.dao.CategoryDao
-import me.lordierclaw.todo2.data.dao.SubtaskDao
-import me.lordierclaw.todo2.data.dao.TaskDao
-import me.lordierclaw.todo2.data.model.Attachment
-import me.lordierclaw.todo2.data.model.Category
-import me.lordierclaw.todo2.data.model.Subtask
-import me.lordierclaw.todo2.data.model.Task
+import me.lordierclaw.todo2.data.local.dao.AttachmentDao
+import me.lordierclaw.todo2.data.local.dao.CategoryDao
+import me.lordierclaw.todo2.data.local.dao.SubtaskDao
+import me.lordierclaw.todo2.data.local.dao.TaskDao
+import me.lordierclaw.todo2.data.local.entity.AttachmentEntity
+import me.lordierclaw.todo2.data.local.entity.CategoryEntity
+import me.lordierclaw.todo2.data.local.entity.SubtaskEntity
+import me.lordierclaw.todo2.data.local.entity.TaskEntity
 
 @Database(
     entities = [
-        Task::class,
-        Subtask::class,
-        Category::class,
-        Attachment::class
+        TaskEntity::class,
+        SubtaskEntity::class,
+        CategoryEntity::class,
+        AttachmentEntity::class
     ],
     version = 1,
     exportSchema = false
@@ -37,7 +37,7 @@ abstract class LocalDatabase: RoomDatabase() {
 
         fun getInstance(context: Context): LocalDatabase {
             return instance ?: synchronized(this) {
-                Room.databaseBuilder(context, LocalDatabase::class.java, "todo_database")
+                Room.databaseBuilder(context, LocalDatabase::class.java, "todo_local_database")
                     .build()
                     .also {
                         instance = it

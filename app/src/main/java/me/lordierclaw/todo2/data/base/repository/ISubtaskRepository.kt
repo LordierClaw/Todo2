@@ -1,6 +1,6 @@
-package me.lordierclaw.todo2.data.repository
+package me.lordierclaw.todo2.data.base.repository
 
-import me.lordierclaw.todo2.data.model.Subtask
+import me.lordierclaw.todo2.data.base.model.Subtask
 
 interface ISubtaskRepository {
     suspend fun insertSubtask(subtask: Subtask)

@@ -1,8 +1,8 @@
-package me.lordierclaw.todo2.data.repository
+package me.lordierclaw.todo2.data.base.repository
 
 import androidx.lifecycle.LiveData
-import me.lordierclaw.todo2.data.model.Task
-import me.lordierclaw.todo2.data.model.TaskDetail
+import me.lordierclaw.todo2.data.base.model.Task
+import me.lordierclaw.todo2.data.base.model.TaskDetail
 
 interface ITaskRepository {
     suspend fun insertTask(task: Task)

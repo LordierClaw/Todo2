@@ -1,8 +1,8 @@
-package me.lordierclaw.todo2.data.repository
+package me.lordierclaw.todo2.data.base.repository
 
 import androidx.lifecycle.LiveData
-import me.lordierclaw.todo2.data.model.Category
-import me.lordierclaw.todo2.data.model.CategoryWithTask
+import me.lordierclaw.todo2.data.base.model.Category
+import me.lordierclaw.todo2.data.base.model.CategoryWithTask
 
 interface ICategoryRepository {
     suspend fun insertCategory(category: Category)

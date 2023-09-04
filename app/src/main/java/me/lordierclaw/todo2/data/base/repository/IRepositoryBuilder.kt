@@ -1,4 +1,4 @@
-package me.lordierclaw.todo2.data.repository
+package me.lordierclaw.todo2.data.base.repository
 
 interface IRepositoryBuilder {
     val taskRepository: ITaskRepository

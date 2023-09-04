@@ -1,12 +1,12 @@
-package me.lordierclaw.todo2.data.repository.local
+package me.lordierclaw.todo2.data.local.repository
 
 import android.content.Context
-import me.lordierclaw.todo2.data.database.LocalDatabase
-import me.lordierclaw.todo2.data.repository.IAttachmentRepository
-import me.lordierclaw.todo2.data.repository.ICategoryRepository
-import me.lordierclaw.todo2.data.repository.IRepositoryBuilder
-import me.lordierclaw.todo2.data.repository.ISubtaskRepository
-import me.lordierclaw.todo2.data.repository.ITaskRepository
+import me.lordierclaw.todo2.data.local.LocalDatabase
+import me.lordierclaw.todo2.data.base.repository.IAttachmentRepository
+import me.lordierclaw.todo2.data.base.repository.ICategoryRepository
+import me.lordierclaw.todo2.data.base.repository.IRepositoryBuilder
+import me.lordierclaw.todo2.data.base.repository.ISubtaskRepository
+import me.lordierclaw.todo2.data.base.repository.ITaskRepository
 
 class LocalRepositoryBuilder(private val context: Context): IRepositoryBuilder {
     override val taskRepository: ITaskRepository

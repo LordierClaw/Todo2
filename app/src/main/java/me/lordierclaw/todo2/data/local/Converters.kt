@@ -1,4 +1,4 @@
-package me.lordierclaw.todo2.data.database
+package me.lordierclaw.todo2.data.local
 
 import androidx.room.TypeConverter
 import java.util.Date
@@ -11,6 +11,6 @@ class Converters {
 
     @TypeConverter
     fun dateToTimestamp(date: Date?): Long? {
-        return date?.time?.toLong()
+        return date?.time
     }
 }
