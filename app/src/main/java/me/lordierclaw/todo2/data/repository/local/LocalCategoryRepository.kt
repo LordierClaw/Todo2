@@ -16,8 +16,7 @@ class LocalCategoryRepository(private val dao: CategoryDao): ICategoryRepository
 
     override fun getCategory(id: Int): LiveData<Category> = dao.getCategory(id)
 
-    override fun getCategoryWithTasks(id: Int): LiveData<CategoryWithTask> =
-        MutableLiveData<CategoryWithTask>()
+    override fun getCategoryWithTasks(id: Int): LiveData<CategoryWithTask> = dao.getCategoryWithTasks(id)
 
     override fun getAllCategory(): LiveData<List<Category>> = dao.getAllCategory()
 }
