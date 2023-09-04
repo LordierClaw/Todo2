@@ -13,7 +13,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import me.lordierclaw.todo2.R
 import me.lordierclaw.todo2.databinding.ActivityMainBinding
-import me.lordierclaw.todo2.model.Task
+import me.lordierclaw.todo2.data.model.Task
 import me.lordierclaw.todo2.screen.task.dialog.AddTaskDialogFragment
 import me.lordierclaw.todo2.screen.task.dialog.IAddTaskListener
 
@@ -58,7 +58,7 @@ class MainActivity : AppCompatActivity() {
         if (binding.root.isDrawerOpen(GravityCompat.START)) {
             binding.root.close()
         } else {
-            onBackPressed()
+            onBackPressedDispatcher.onBackPressed()
         }
     }
 
