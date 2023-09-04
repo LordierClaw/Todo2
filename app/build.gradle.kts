@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId = "me.lordierclaw.todo2"
-        minSdk = 24
+        minSdk = 26
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"

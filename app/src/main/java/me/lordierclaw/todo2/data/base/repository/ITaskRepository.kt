@@ -9,5 +9,6 @@ interface ITaskRepository {
     suspend fun updateTask(task: Task)
     suspend fun deleteTask(task: Task)
     fun getTask(id: Int): LiveData<Task>
+    fun getAllTask(): LiveData<List<Task>>
     fun getTaskDetail(id: Int): LiveData<TaskDetail>
 }

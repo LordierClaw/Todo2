@@ -1,4 +1,4 @@
-package me.lordierclaw.todo2.screen
+package me.lordierclaw.todo2.screen.utils
 
 object CallbackResult {
     const val SUCCESS: Int = 1

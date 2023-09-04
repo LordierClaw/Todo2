@@ -4,9 +4,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import me.lordierclaw.todo2.data.base.model.Task
 import me.lordierclaw.todo2.data.base.model.TaskDetail
+import me.lordierclaw.todo2.data.base.repository.ITaskRepository
 import me.lordierclaw.todo2.data.local.dao.TaskDao
 import me.lordierclaw.todo2.data.local.entity.TaskEntity
-import me.lordierclaw.todo2.data.base.repository.ITaskRepository
 
 class LocalTaskRepository(private val dao: TaskDao): ITaskRepository {
     override suspend fun insertTask(task: Task) {
@@ -23,6 +23,13 @@ class LocalTaskRepository(private val dao: TaskDao): ITaskRepository {
 
     override fun getTask(id: Int): LiveData<Task> {
         return dao.getTaskEntity(id).map { it.toTask() }
+    }
+
+    override fun getAllTask(): LiveData<List<Task>> {
+        val taskEntities = dao.getAllTaskEntity()
+        return taskEntities.map { list ->
+            list.map { it.toTask() }
+        }
     }
 
     override fun getTaskDetail(id: Int): LiveData<TaskDetail> {

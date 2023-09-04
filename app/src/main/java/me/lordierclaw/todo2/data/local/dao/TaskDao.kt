@@ -24,6 +24,9 @@ interface TaskDao {
     @Query("SELECT * FROM task WHERE id = :id")
     fun getTaskEntity(id: Int): LiveData<TaskEntity>
 
+    @Query("SELECT * FROM task")
+    fun getAllTaskEntity(): LiveData<List<TaskEntity>>
+
     @Transaction
     @Query("SELECT * FROM task WHERE id = :id")
     fun getTaskDetailEntity(id: Int): LiveData<TaskDetailEntity>

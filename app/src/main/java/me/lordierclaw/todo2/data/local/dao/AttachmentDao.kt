@@ -1,8 +1,10 @@
 package me.lordierclaw.todo2.data.local.dao
 
+import androidx.lifecycle.LiveData
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
+import androidx.room.Query
 import androidx.room.Update
 import me.lordierclaw.todo2.data.local.entity.AttachmentEntity
 
@@ -16,4 +18,7 @@ interface AttachmentDao {
 
     @Delete(entity = AttachmentEntity::class)
     suspend fun delete(attachmentEntity: AttachmentEntity)
+
+    @Query("SELECT * FROM attachment WHERE id = :id")
+    fun getAttachment(id: Int): LiveData<AttachmentEntity>
 }

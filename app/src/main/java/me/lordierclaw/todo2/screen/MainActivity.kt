@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.Toast
 import androidx.activity.addCallback
+import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.navigation.fragment.NavHostFragment
@@ -12,8 +13,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import me.lordierclaw.todo2.R
+import me.lordierclaw.todo2.data.base.model.Task
 import me.lordierclaw.todo2.databinding.ActivityMainBinding
-import me.lordierclaw.todo2.data.local.entity.TaskEntity
 import me.lordierclaw.todo2.screen.task.dialog.AddTaskDialogFragment
 import me.lordierclaw.todo2.screen.task.dialog.IAddTaskListener
 
@@ -22,6 +23,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var bottomNav: BottomNavigationView
     private lateinit var fab: FloatingActionButton
     private lateinit var navHost: NavHostFragment
+
+    private val viewModel by viewModels<MainActivityViewModel> { MainActivityViewModel.Factory(application) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +69,7 @@ class MainActivity : AppCompatActivity() {
         when (navHost.navController.currentDestination?.id) {
             R.id.allTaskFragment -> {
                 val dialog = AddTaskDialogFragment.newInstance(object : IAddTaskListener {
-                    override fun onFinish(result: Int, task: TaskEntity?) {
+                    override fun onFinish(result: Int, task: Task?) {
                     }
                 })
                 dialog.show(supportFragmentManager, "add_task_dialog")

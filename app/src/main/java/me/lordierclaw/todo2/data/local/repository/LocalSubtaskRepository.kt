@@ -1,9 +1,11 @@
 package me.lordierclaw.todo2.data.local.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.map
 import me.lordierclaw.todo2.data.base.model.Subtask
+import me.lordierclaw.todo2.data.base.repository.ISubtaskRepository
 import me.lordierclaw.todo2.data.local.dao.SubtaskDao
 import me.lordierclaw.todo2.data.local.entity.SubtaskEntity
-import me.lordierclaw.todo2.data.base.repository.ISubtaskRepository
 
 class LocalSubtaskRepository(private val dao: SubtaskDao): ISubtaskRepository {
     override suspend fun insertSubtask(subtask: Subtask) {
@@ -16,6 +18,10 @@ class LocalSubtaskRepository(private val dao: SubtaskDao): ISubtaskRepository {
 
     override suspend fun deleteSubtask(subtask: Subtask) {
         dao.delete(SubtaskEntity.from(subtask))
+    }
+
+    override fun getSubtask(id: Int): LiveData<Subtask> {
+        return dao.getSubtaskEntity(id).map { it.toSubtask() }
     }
 
 }

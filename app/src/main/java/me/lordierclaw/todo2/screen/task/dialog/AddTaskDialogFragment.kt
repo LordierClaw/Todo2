@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import me.lordierclaw.todo2.databinding.DialogAddTaskBinding
-import me.lordierclaw.todo2.screen.CallbackResult
+import me.lordierclaw.todo2.screen.utils.CallbackResult
 import java.util.Date
 
 class AddTaskDialogFragment : BottomSheetDialogFragment() {
