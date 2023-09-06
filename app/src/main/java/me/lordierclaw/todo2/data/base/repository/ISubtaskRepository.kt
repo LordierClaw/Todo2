@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import me.lordierclaw.todo2.data.base.model.Subtask
 
 interface ISubtaskRepository {
-    suspend fun insertSubtask(subtask: Subtask)
+    suspend fun insertSubtask(vararg subtask: Subtask)
     suspend fun updateSubtask(subtask: Subtask)
     suspend fun deleteSubtask(subtask: Subtask)
     fun getSubtask(id: Int): LiveData<Subtask>

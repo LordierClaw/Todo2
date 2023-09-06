@@ -11,4 +11,11 @@ data class Task(
     val reminderAt: Int? = null,
     val repeat: String? = null,
     val notes: String? = null,
-)
+) {
+    companion object {
+        const val REPEAT_DAILY = "Daily"
+        const val REPEAT_WEEKLY = "Weekly"
+        const val REPEAT_MONTHLY = "Monthly"
+        const val REPEAT_YEARLY = "Yearly"
+    }
+}

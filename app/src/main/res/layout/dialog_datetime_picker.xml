@@ -15,7 +15,6 @@
         android:id="@+id/dialog_datetime_picker_chip_group"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         app:chipSpacingVertical="0dp"
         app:singleSelection="true"
         app:selectionRequired="false"
@@ -25,30 +24,35 @@
             android:id="@+id/dialog_datetime_picker_no_date_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="false"
             android:text="@string/no_date"/>
 
         <com.google.android.material.chip.Chip
             android:id="@+id/dialog_datetime_picker_today_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="false"
             android:text="@string/today"/>
 
         <com.google.android.material.chip.Chip
             android:id="@+id/dialog_datetime_picker_tomorrow_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="false"
             android:text="@string/tomorrow"/>
 
         <com.google.android.material.chip.Chip
             android:id="@+id/dialog_datetime_picker_3_days_later_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="false"
             android:text="@string/_3_days_later"/>
 
         <com.google.android.material.chip.Chip
             android:id="@+id/dialog_datetime_picker_next_week_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="false"
             android:text="@string/next_week"/>
 
     </com.google.android.material.chip.ChipGroup>

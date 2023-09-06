@@ -11,8 +11,11 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.LinearLayoutManager
 import me.lordierclaw.todo2.R
+import me.lordierclaw.todo2.data.base.model.Task
 import me.lordierclaw.todo2.databinding.FragmentAllTaskBinding
-import me.lordierclaw.todo2.screen.task.recyclerview.TaskAdapter
+import me.lordierclaw.todo2.screen.task.recyclerview.task.ITaskOnCheckListener
+import me.lordierclaw.todo2.screen.task.recyclerview.task.ITaskOnClickListener
+import me.lordierclaw.todo2.screen.task.recyclerview.task.TaskAdapter
 
 class AllTaskFragment : Fragment() {
 
@@ -36,6 +39,16 @@ class AllTaskFragment : Fragment() {
         taskAdapter = TaskAdapter()
         binding.allTaskRcv.layoutManager = LinearLayoutManager(context)
         binding.allTaskRcv.adapter = taskAdapter
+        taskAdapter.setOnCheckListener(object : ITaskOnCheckListener {
+            override fun onCheck(status: Boolean, task: Task) {
+                viewModel.updateTask(task.also { it.status = status })
+            }
+        })
+        taskAdapter.setOnClickListener(object : ITaskOnClickListener {
+            override fun onClick(task: Task) {
+                Toast.makeText(context, "This will open TaskDetails", Toast.LENGTH_SHORT).show()
+            }
+        })
         viewModel.tasks.observe(viewLifecycleOwner) { taskAdapter.setData(it) }
     }
 

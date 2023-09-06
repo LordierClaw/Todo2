@@ -11,7 +11,7 @@ import me.lordierclaw.todo2.data.local.entity.SubtaskEntity
 @Dao
 interface SubtaskDao {
     @Insert(entity = SubtaskEntity::class)
-    suspend fun insert(subtaskEntity: SubtaskEntity)
+    suspend fun insert(vararg subtaskEntity: SubtaskEntity)
 
     @Update(entity = SubtaskEntity::class)
     suspend fun update(subtaskEntity: SubtaskEntity)

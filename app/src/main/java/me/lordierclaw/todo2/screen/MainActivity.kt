@@ -13,10 +13,8 @@ import androidx.navigation.ui.setupWithNavController
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import me.lordierclaw.todo2.R
-import me.lordierclaw.todo2.data.base.model.Task
 import me.lordierclaw.todo2.databinding.ActivityMainBinding
-import me.lordierclaw.todo2.screen.task.dialog.AddTaskDialogFragment
-import me.lordierclaw.todo2.screen.task.dialog.IAddTaskListener
+import me.lordierclaw.todo2.screen.task.dialog.addtask.AddTaskDialogFragment
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -68,10 +66,7 @@ class MainActivity : AppCompatActivity() {
     private fun fabOnClick() {
         when (navHost.navController.currentDestination?.id) {
             R.id.allTaskFragment -> {
-                val dialog = AddTaskDialogFragment.newInstance(object : IAddTaskListener {
-                    override fun onFinish(result: Int, task: Task?) {
-                    }
-                })
+                val dialog = AddTaskDialogFragment.newInstance()
                 dialog.show(supportFragmentManager, "add_task_dialog")
             }
             R.id.calendarFragment -> {

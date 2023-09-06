@@ -8,8 +8,10 @@ import me.lordierclaw.todo2.data.local.dao.SubtaskDao
 import me.lordierclaw.todo2.data.local.entity.SubtaskEntity
 
 class LocalSubtaskRepository(private val dao: SubtaskDao): ISubtaskRepository {
-    override suspend fun insertSubtask(subtask: Subtask) {
-        dao.insert(SubtaskEntity.from(subtask))
+    override suspend fun insertSubtask(vararg subtask: Subtask) {
+        val subtaskEntities: Array<out SubtaskEntity> =
+            subtask.map { SubtaskEntity.from(it) }.toTypedArray()
+        dao.insert(*subtaskEntities)
     }
 
     override suspend fun updateSubtask(subtask: Subtask) {

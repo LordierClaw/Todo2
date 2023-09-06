@@ -7,13 +7,13 @@ import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
-import me.lordierclaw.todo2.data.local.entity.TaskEntity
 import me.lordierclaw.todo2.data.local.entity.TaskDetailEntity
+import me.lordierclaw.todo2.data.local.entity.TaskEntity
 
 @Dao
 interface TaskDao {
     @Insert(entity = TaskEntity::class)
-    suspend fun insert(taskEntity: TaskEntity)
+    suspend fun insert(taskEntity: TaskEntity): Long
 
     @Update(entity = TaskEntity::class)
     suspend fun update(taskEntity: TaskEntity)

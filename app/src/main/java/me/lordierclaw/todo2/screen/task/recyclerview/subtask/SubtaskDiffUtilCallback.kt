@@ -1,13 +1,12 @@
-package me.lordierclaw.todo2.screen.task.recyclerview
+package me.lordierclaw.todo2.screen.task.recyclerview.subtask
 
 import androidx.recyclerview.widget.DiffUtil
-import me.lordierclaw.todo2.data.base.model.Task
+import me.lordierclaw.todo2.data.base.model.Subtask
 
-class TaskDiffUtilCallback(
-    private val newList: List<Task>,
-    private val oldList: List<Task>
+class SubtaskDiffUtilCallback(
+    private val newList: List<Subtask>,
+    private val oldList: List<Subtask>
 ): DiffUtil.Callback() {
-
     override fun getOldListSize(): Int = oldList.size
 
     override fun getNewListSize(): Int = newList.size

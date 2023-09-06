@@ -9,8 +9,8 @@ import me.lordierclaw.todo2.data.local.dao.TaskDao
 import me.lordierclaw.todo2.data.local.entity.TaskEntity
 
 class LocalTaskRepository(private val dao: TaskDao): ITaskRepository {
-    override suspend fun insertTask(task: Task) {
-        dao.insert(TaskEntity.from(task))
+    override suspend fun insertTask(task: Task): Int {
+        return dao.insert(TaskEntity.from(task)).toInt()
     }
 
     override suspend fun updateTask(task: Task) {

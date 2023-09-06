@@ -8,13 +8,23 @@
     android:paddingEnd="8dp">
 
     <com.google.android.material.checkbox.MaterialCheckBox
-        android:id="@+id/subtask_checkbox_name"
+        android:id="@+id/subtask_checkbox_btn"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/subtask_name_txt"
+        android:padding="8dp"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        tools:text="This is a subtask"
+        style="@style/Widget.Material3.CompoundButton.CheckBox"
+        app:layout_constraintBaseline_toBaselineOf="@id/subtask_checkbox_btn"
+        app:layout_constraintStart_toEndOf="@id/subtask_checkbox_btn"
         app:layout_constraintEnd_toStartOf="@id/subtask_remove_btn"
-        tools:text="This is a subtask"/>
+        android:background="@android:color/transparent"/>
 
     <ImageView
         android:id="@+id/subtask_remove_btn"
