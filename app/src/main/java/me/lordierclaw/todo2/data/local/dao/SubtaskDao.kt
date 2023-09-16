@@ -21,4 +21,7 @@ interface SubtaskDao {
 
     @Query("SELECT * FROM subtask WHERE id = :id")
     fun getSubtaskEntity(id: Int): LiveData<SubtaskEntity>
+
+    @Query("SELECT * FROM subtask WHERE task_id = :taskId")
+    fun getAllSubtaskOfTask(taskId: Int): LiveData<List<SubtaskEntity>>
 }

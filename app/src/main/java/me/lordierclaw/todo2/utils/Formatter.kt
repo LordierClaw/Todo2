@@ -1,4 +1,4 @@
-package me.lordierclaw.todo2.screen.utils
+package me.lordierclaw.todo2.utils
 
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -7,11 +7,12 @@ import java.util.Locale
 object Formatter {
 
     enum class DateFormat {
-        DATE, SHORTEN_DATE, TIME
+        TIME_AND_DATE, DATE, SHORTEN_DATE, TIME
     }
     fun dateToString(date: Date, dateFormat: DateFormat): String {
         val simpleDateFormat = SimpleDateFormat(
             when (dateFormat) {
+                DateFormat.TIME_AND_DATE -> "HH-mm dd/MM/yyyy"
                 DateFormat.DATE -> "dd/MM/yyyy"
                 DateFormat.SHORTEN_DATE -> "dd/MM"
                 DateFormat.TIME -> "HH/mm"

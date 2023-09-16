@@ -26,4 +26,10 @@ class LocalSubtaskRepository(private val dao: SubtaskDao): ISubtaskRepository {
         return dao.getSubtaskEntity(id).map { it.toSubtask() }
     }
 
+    override fun getAllSubtaskOfTask(taskId: Int): LiveData<List<Subtask>> {
+        return dao.getAllSubtaskOfTask(taskId).map { list ->
+            list.map { it.toSubtask() }
+        }
+    }
+
 }

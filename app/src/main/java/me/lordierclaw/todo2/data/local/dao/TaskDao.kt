@@ -5,9 +5,7 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import androidx.room.Transaction
 import androidx.room.Update
-import me.lordierclaw.todo2.data.local.entity.TaskDetailEntity
 import me.lordierclaw.todo2.data.local.entity.TaskEntity
 
 @Dao
@@ -26,8 +24,4 @@ interface TaskDao {
 
     @Query("SELECT * FROM task")
     fun getAllTaskEntity(): LiveData<List<TaskEntity>>
-
-    @Transaction
-    @Query("SELECT * FROM task WHERE id = :id")
-    fun getTaskDetailEntity(id: Int): LiveData<TaskDetailEntity>
 }

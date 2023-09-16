@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import me.lordierclaw.todo2.R
 import me.lordierclaw.todo2.data.base.model.Subtask
-import me.lordierclaw.todo2.data.base.model.Task
 import me.lordierclaw.todo2.databinding.DialogAddTaskBinding
 import me.lordierclaw.todo2.screen.task.dialog.datetimepicker.DatetimePickerDialogFragment
 import me.lordierclaw.todo2.screen.task.dialog.datetimepicker.IDatetimePickerListener
@@ -47,27 +46,23 @@ class AddTaskDialogFragment : BottomSheetDialogFragment() {
         binding.dialogAddTaskCategoryBtn.setOnClickListener { showCategoryMenu(it) }
         subtaskAdapter = SubtaskAdapter(object : ISubtaskListener {
             override fun onCheck(subtask: Subtask) {
-                binding.dialogAddTaskSubtaskRcv.post {
-                    viewModel.updateSubtask(subtask)
-                }
+                viewModel.updateSubtask(subtask)
             }
 
             override fun removeButtonOnClick(subtask: Subtask) {
-                viewModel.deleteSubtask(subtask)
+                val id = viewModel.deleteSubtask(subtask)
+                if (id != -1) subtaskAdapter.notifyItemRemoved(id)
             }
 
             override fun afterEditName(subtask: Subtask) {
-//                binding.dialogAddTaskSubtaskRcv.post {
-//                    if (subtask.name == "") {
-//                        removeButtonOnClick(subtask)
-//                    } else {
-//                        viewModel.updateSubtask(subtask)
-//                    }
-//                }
+                if (subtask.name == "") {
+                    removeButtonOnClick(subtask)
+                } else {
+                    viewModel.updateSubtask(subtask)
+                }
             }
         })
-        viewModel.subtasks.observe(viewLifecycleOwner) {
-            // Call setData from ui thread
+        viewModel.setSubtaskListOnChangeListener {
             subtaskAdapter.setData(it)
         }
         binding.dialogAddTaskSubtaskRcv.apply {
@@ -75,7 +70,7 @@ class AddTaskDialogFragment : BottomSheetDialogFragment() {
             adapter = subtaskAdapter
         }
         binding.dialogAddTaskSubtaskBtn.setOnClickListener {
-            viewModel.newSubtask()
+            subtaskAdapter.notifyItemInserted(viewModel.newSubtask())
         }
     }
 
@@ -84,6 +79,7 @@ class AddTaskDialogFragment : BottomSheetDialogFragment() {
         if (name == "") {
             Toast.makeText(context, "Your task's name shouldn't be empty!", Toast.LENGTH_SHORT).show()
         } else {
+            binding.dialogAddTaskSubtaskRcv.clearFocus()
             viewModel.insertTaskWithSubtasks(name)
             dismiss()
         }

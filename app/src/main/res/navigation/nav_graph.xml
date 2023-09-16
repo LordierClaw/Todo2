@@ -7,26 +7,27 @@
 
     <fragment
         android:id="@+id/allTaskFragment"
-        android:name="me.lordierclaw.todo2.screen.task.AllTaskFragment"
-        android:label="fragment_all_task"
-        tools:layout="@layout/fragment_all_task" >
+        android:name="me.lordierclaw.todo2.screen.task.alltask.AllTaskFragment"
+        tools:layout="@layout/fragment_all_task">
         <action
             android:id="@+id/action_allTaskFragment_to_taskDetailFragment"
-            app:destination="@id/taskDetailFragment" />
+            app:destination="@id/taskDetailFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/allTaskFragment" />
     </fragment>
     <fragment
         android:id="@+id/calendarFragment"
         android:name="me.lordierclaw.todo2.screen.calendar.CalendarFragment"
-        android:label="fragment_calendar"
         tools:layout="@layout/fragment_calendar" />
     <fragment
         android:id="@+id/mineFragment"
         android:name="me.lordierclaw.todo2.screen.mine.MineFragment"
-        android:label="fragment_mine"
         tools:layout="@layout/fragment_mine" />
     <fragment
         android:id="@+id/taskDetailFragment"
-        android:name="me.lordierclaw.todo2.screen.task.TaskDetailFragment"
-        android:label="fragment_task_detail"
+        android:name="me.lordierclaw.todo2.screen.task.taskdetail.TaskDetailFragment"
         tools:layout="@layout/fragment_task_detail" />
 </navigation>

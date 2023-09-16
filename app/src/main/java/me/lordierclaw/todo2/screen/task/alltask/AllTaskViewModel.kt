@@ -1,4 +1,4 @@
-package me.lordierclaw.todo2.screen.task
+package me.lordierclaw.todo2.screen.task.alltask
 
 import android.app.Application
 import androidx.lifecycle.LiveData
@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
 import me.lordierclaw.todo2.TodoApplication
+import me.lordierclaw.todo2.data.base.model.Category
 import me.lordierclaw.todo2.data.base.model.Task
 import me.lordierclaw.todo2.data.base.repository.IRepositoryBuilder
 
@@ -18,6 +19,8 @@ class AllTaskViewModel(private val repositoryBuilder: IRepositoryBuilder) : View
             repositoryBuilder.taskRepository.updateTask(task)
         }
     }
+
+    fun getAllCategory() : LiveData<List<Category>> = repositoryBuilder.categoryRepository.getAllCategory()
 
     class Factory(private val application: Application): ViewModelProvider.Factory {
         @Suppress("UNCHECKED_CAST")

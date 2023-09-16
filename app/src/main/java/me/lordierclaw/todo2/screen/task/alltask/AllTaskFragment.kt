@@ -1,4 +1,4 @@
-package me.lordierclaw.todo2.screen.task
+package me.lordierclaw.todo2.screen.task.alltask
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,8 +7,10 @@ import android.view.ViewGroup
 import android.widget.PopupMenu
 import android.widget.Toast
 import androidx.annotation.MenuRes
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import me.lordierclaw.todo2.R
 import me.lordierclaw.todo2.data.base.model.Task
@@ -16,6 +18,7 @@ import me.lordierclaw.todo2.databinding.FragmentAllTaskBinding
 import me.lordierclaw.todo2.screen.task.recyclerview.task.ITaskOnCheckListener
 import me.lordierclaw.todo2.screen.task.recyclerview.task.ITaskOnClickListener
 import me.lordierclaw.todo2.screen.task.recyclerview.task.TaskAdapter
+import me.lordierclaw.todo2.screen.task.taskdetail.TaskDetailFragment
 
 class AllTaskFragment : Fragment() {
 
@@ -46,10 +49,17 @@ class AllTaskFragment : Fragment() {
         })
         taskAdapter.setOnClickListener(object : ITaskOnClickListener {
             override fun onClick(task: Task) {
-                Toast.makeText(context, "This will open TaskDetails", Toast.LENGTH_SHORT).show()
+                showTaskDetail(task)
             }
         })
-        viewModel.tasks.observe(viewLifecycleOwner) { taskAdapter.setData(it) }
+        viewModel.tasks.observe(viewLifecycleOwner) { taskAdapter.setDataWithDiffUtil(it) }
+    }
+
+    private fun showTaskDetail(task: Task) {
+        val navController = findNavController()
+        navController.navigate(R.id.action_allTaskFragment_to_taskDetailFragment, bundleOf(
+            TaskDetailFragment.ARG_TASK_ID to task.id
+        ))
     }
 
     private fun showOverflowMenu(view: View, @MenuRes menuRes: Int) {

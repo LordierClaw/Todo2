@@ -3,7 +3,6 @@ package me.lordierclaw.todo2.data.local.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
 import me.lordierclaw.todo2.data.base.model.Task
-import me.lordierclaw.todo2.data.base.model.TaskDetail
 import me.lordierclaw.todo2.data.base.repository.ITaskRepository
 import me.lordierclaw.todo2.data.local.dao.TaskDao
 import me.lordierclaw.todo2.data.local.entity.TaskEntity
@@ -30,10 +29,6 @@ class LocalTaskRepository(private val dao: TaskDao): ITaskRepository {
         return taskEntities.map { list ->
             list.map { it.toTask() }
         }
-    }
-
-    override fun getTaskDetail(id: Int): LiveData<TaskDetail> {
-        return dao.getTaskDetailEntity(id).map { it.toTaskDetail() }
     }
 
 }

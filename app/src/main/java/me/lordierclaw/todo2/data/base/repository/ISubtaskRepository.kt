@@ -8,4 +8,5 @@ interface ISubtaskRepository {
     suspend fun updateSubtask(subtask: Subtask)
     suspend fun deleteSubtask(subtask: Subtask)
     fun getSubtask(id: Int): LiveData<Subtask>
+    fun getAllSubtaskOfTask(taskId: Int): LiveData<List<Subtask>>
 }

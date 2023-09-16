@@ -2,7 +2,6 @@ package me.lordierclaw.todo2.screen.task.dialog.addtask
 
 import android.app.Application
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.viewModelScope
@@ -13,6 +12,7 @@ import me.lordierclaw.todo2.data.base.model.Category
 import me.lordierclaw.todo2.data.base.model.Subtask
 import me.lordierclaw.todo2.data.base.model.Task
 import me.lordierclaw.todo2.data.base.repository.IRepositoryBuilder
+import me.lordierclaw.todo2.utils.list.BaseList
 import java.util.Date
 
 class AddTaskDialogViewModel(private val repositoryBuilder: IRepositoryBuilder): ViewModel() {
@@ -21,33 +21,24 @@ class AddTaskDialogViewModel(private val repositoryBuilder: IRepositoryBuilder):
     var date: Date? = null
     var repeat: String? = null
 
-    private val _subtasks: MutableLiveData<List<Subtask>> = MutableLiveData(listOf())
-    private var subtaskCounter: Int = 0
-    val subtasks: LiveData<List<Subtask>> get() = _subtasks
+    private val subtasks: BaseList<Subtask> = BaseList()
 
-    fun newSubtask(defaultName: String = "New Subtask") {
-        _subtasks.value = _subtasks.value?.toMutableList().also {
-            it?.add(Subtask(id = subtaskCounter, name = "$defaultName $subtaskCounter", taskId = 0))
-            subtaskCounter++
-        }
+    fun setSubtaskListOnChangeListener(listener: (newList: BaseList<Subtask>) -> Unit) {
+        subtasks.setOnChangeListener { listener.invoke(it) }
     }
 
-    fun deleteSubtask(subtask: Subtask) {
-        _subtasks.value = _subtasks.value?.toMutableList().also {
-            it?.remove(subtask)
-        }
-    }
-
-    fun updateSubtask(subtask: Subtask) {
-        _subtasks.value = _subtasks.value?.toMutableList().also { list ->
-            list?.forEachIndexed { index, it ->
-                if (it.id == subtask.id) {
-                    list[index] = subtask
-                    return@forEachIndexed
-                }
+    fun newSubtask(defaultName: String = "New Subtask"): Int {
+        subtasks.apply {
+            setNewItemInitializer { id ->
+               Subtask(id = id, name = "$defaultName $id", taskId = 0)
             }
+            return insertNewItem()
         }
     }
+
+    fun deleteSubtask(subtask: Subtask): Int = subtasks.deleteAndGetIndex(subtask)
+
+    fun updateSubtask(subtask: Subtask): Int = subtasks.updateAndGetIndex(subtask)
 
     fun getAllCategory() : LiveData<List<Category>> = repositoryBuilder.categoryRepository.getAllCategory()
 
@@ -61,10 +52,8 @@ class AddTaskDialogViewModel(private val repositoryBuilder: IRepositoryBuilder):
                     repeat = repeat
                 )
             )
-            val subtasksArray = _subtasks.value?.map { it.copy(id = 0, taskId = id) }?.toTypedArray()
-            if (subtasksArray != null) {
-                repositoryBuilder.subtaskRepository.insertSubtask(*subtasksArray)
-            }
+            val subtasksArray = subtasks.map { it.copy(id = 0, taskId = id) }.toTypedArray()
+            repositoryBuilder.subtaskRepository.insertSubtask(*subtasksArray)
         }
     }
 

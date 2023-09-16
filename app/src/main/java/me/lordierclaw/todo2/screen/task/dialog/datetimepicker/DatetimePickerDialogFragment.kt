@@ -3,7 +3,6 @@ package me.lordierclaw.todo2.screen.task.dialog.datetimepicker
 import android.app.TimePickerDialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,11 +10,10 @@ import android.widget.PopupMenu
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.DialogFragment
 import androidx.lifecycle.MutableLiveData
-import com.google.android.material.chip.Chip
 import me.lordierclaw.todo2.R
 import me.lordierclaw.todo2.data.base.model.Task
 import me.lordierclaw.todo2.databinding.DialogDatetimePickerBinding
-import me.lordierclaw.todo2.screen.utils.CallbackResult
+import me.lordierclaw.todo2.utils.CallbackResult
 import java.time.Duration
 import java.util.Calendar
 import java.util.Date

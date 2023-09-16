@@ -46,10 +46,17 @@ class MainActivity : AppCompatActivity() {
             }
         }
         navHost.navController.addOnDestinationChangedListener { _, destination, _ ->
-            if (destination.id == R.id.mineFragment) {
-                fab.visibility = View.GONE
-            } else {
+            // FAB Visibility
+            if (destination.id == R.id.allTaskFragment || destination.id == R.id.calendarFragment) {
                 fab.visibility = View.VISIBLE
+            } else {
+                fab.visibility = View.GONE
+            }
+            // Bottom Nav Visibility
+            if (destination.id == R.id.allTaskFragment || destination.id == R.id.calendarFragment || destination.id == R.id.mineFragment) {
+                binding.bottomNav.visibility = View.VISIBLE
+            } else {
+                binding.bottomNav.visibility = View.GONE
             }
         }
         onBackPressedDispatcher.addCallback (this) { onBackClick() }
