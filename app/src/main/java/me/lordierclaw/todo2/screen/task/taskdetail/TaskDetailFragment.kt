@@ -93,6 +93,36 @@ class TaskDetailFragment : Fragment() {
         val id: Int = requireArguments().getInt(ARG_TASK_ID)
         viewModel.setupWithTask(id, viewLifecycleOwner).observe(viewLifecycleOwner) {
             setupTaskDetail()
+            setupOverflowMenu()
+        }
+    }
+
+    private fun bindMarkAsCompletedMenu() {
+        binding.taskDetailToolbar.menu.getItem(0).title =
+            if (!viewModel.taskStatus)
+                getString(R.string.mark_as_completed)
+            else
+                getString(R.string.mark_as_not_completed)
+    }
+
+    private fun setupOverflowMenu() {
+        binding.taskDetailToolbar.inflateMenu(R.menu.taskdetail_overflow_menu)
+        bindMarkAsCompletedMenu()
+        binding.taskDetailToolbar.setOnMenuItemClickListener {
+            when(it.itemId) {
+                R.id.taskdetail_overflow_mark_completed -> {
+                    viewModel.taskStatus = !viewModel.taskStatus
+                    isEdited = true
+                    bindMarkAsCompletedMenu()
+                    true
+                }
+                R.id.taskdetail_overflow_remove -> {
+                    findNavController().popBackStack()
+                    viewModel.deleteThisTask()
+                    true
+                }
+                else -> false
+            }
         }
     }
 

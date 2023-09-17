@@ -102,6 +102,13 @@ class TaskDetailViewModel(private val repositoryBuilder: IRepositoryBuilder): Vi
         categoryId = category?.id
     }
 
+    fun deleteThisTask() {
+        if (taskId == -1) return
+        viewModelScope.launch(Dispatchers.IO) {
+            repositoryBuilder.taskRepository.deleteTask(taskId)
+        }
+    }
+
     fun getAllCategory() : LiveData<List<Category>> = repositoryBuilder.categoryRepository.getAllCategory()
 
     class Factory(private val application: Application): ViewModelProvider.Factory {

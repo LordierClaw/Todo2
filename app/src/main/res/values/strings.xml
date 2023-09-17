@@ -37,4 +37,7 @@
     <string name="attachment">Attachment</string>
     <string name="reminder_at">Reminder at</string>
     <string name="create_new">Create New</string>
+    <string name="mark_as_completed">Mark as completed</string>
+    <string name="mark_as_not_completed">Mark as not completed</string>
+    <string name="delete">Delete</string>
 </resources>

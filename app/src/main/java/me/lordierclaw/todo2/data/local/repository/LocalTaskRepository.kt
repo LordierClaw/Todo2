@@ -20,6 +20,10 @@ class LocalTaskRepository(private val dao: TaskDao): ITaskRepository {
         dao.delete(TaskEntity.from(task))
     }
 
+    override suspend fun deleteTask(id: Int) {
+        dao.delete(id)
+    }
+
     override fun getTask(id: Int): LiveData<Task> {
         return dao.getTaskEntity(id).map { it.toTask() }
     }

@@ -19,6 +19,8 @@ import com.google.android.material.navigation.NavigationView
 import me.lordierclaw.todo2.R
 import me.lordierclaw.todo2.databinding.ActivityMainBinding
 import me.lordierclaw.todo2.screen.task.dialog.addtask.AddTaskDialogFragment
+import me.lordierclaw.todo2.screen.task.dialog.addtask.IAddTaskListener
+import me.lordierclaw.todo2.utils.CallbackResult
 
 class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
@@ -82,6 +84,9 @@ class MainActivity : AppCompatActivity() {
                     }
                     else -> {
                         viewModel.setCategoryFilter(it.itemId, this)
+                        if (navHost.navController.currentDestination?.id != R.id.allTaskFragment) {
+                            navHost.navController.navigate(R.id.allTaskFragment)
+                        }
                         true
                     }
                 }
@@ -132,7 +137,12 @@ class MainActivity : AppCompatActivity() {
     private fun fabOnClick() {
         when (navHost.navController.currentDestination?.id) {
             R.id.allTaskFragment -> {
-                val dialog = AddTaskDialogFragment.newInstance()
+                val dialog = AddTaskDialogFragment.newInstance(object : IAddTaskListener {
+                    override fun onFinish(result: Int, categoryId: Int?) {
+                        if (result == CallbackResult.SUCCESS)
+                            viewModel.setCategoryFilter(categoryId ?: 0, this@MainActivity)
+                    }
+                })
                 dialog.show(supportFragmentManager, "add_task_dialog")
             }
             R.id.calendarFragment -> {

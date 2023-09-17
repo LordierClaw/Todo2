@@ -42,7 +42,7 @@ class AllTaskFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        binding.allTaskMenuBtn.setOnClickListener { showOverflowMenu(it, R.menu.overflow_menu) }
+        binding.allTaskMenuBtn.setOnClickListener { showOverflowMenu(it, R.menu.alltask_overflow_menu) }
         taskAdapter = TaskAdapter()
         binding.allTaskRcv.layoutManager = LinearLayoutManager(context)
         binding.allTaskRcv.adapter = taskAdapter
@@ -111,7 +111,7 @@ class AllTaskFragment : Fragment() {
         popup.menuInflater.inflate(menuRes, popup.menu)
         popup.setOnMenuItemClickListener {
             when (it.itemId) {
-                R.id.overflow_manage_categories_menu -> {
+                R.id.alltask_overflow_manage_categories_menu -> {
                     findNavController().navigate(R.id.action_allTaskFragment_to_manageCategoryFragment)
                     true
                 }

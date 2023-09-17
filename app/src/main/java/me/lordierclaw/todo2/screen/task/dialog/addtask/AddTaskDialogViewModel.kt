@@ -12,6 +12,7 @@ import me.lordierclaw.todo2.data.base.model.Category
 import me.lordierclaw.todo2.data.base.model.Subtask
 import me.lordierclaw.todo2.data.base.model.Task
 import me.lordierclaw.todo2.data.base.repository.IRepositoryBuilder
+import me.lordierclaw.todo2.utils.CallbackResult
 import me.lordierclaw.todo2.utils.list.BaseList
 import java.util.Date
 
@@ -20,6 +21,7 @@ class AddTaskDialogViewModel(private val repositoryBuilder: IRepositoryBuilder):
     var categoryId: Int? = null
     var date: Date? = null
     var repeat: String? = null
+    var result: Int = CallbackResult.FAILED
 
     private val subtasks: BaseList<Subtask> = BaseList()
 
@@ -54,6 +56,7 @@ class AddTaskDialogViewModel(private val repositoryBuilder: IRepositoryBuilder):
             )
             val subtasksArray = subtasks.map { it.copy(id = 0, taskId = id) }.toTypedArray()
             repositoryBuilder.subtaskRepository.insertSubtask(*subtasksArray)
+            result = CallbackResult.SUCCESS
         }
     }
 

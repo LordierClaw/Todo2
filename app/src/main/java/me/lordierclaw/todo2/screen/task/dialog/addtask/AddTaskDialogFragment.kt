@@ -1,5 +1,6 @@
 package me.lordierclaw.todo2.screen.task.dialog.addtask
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -23,6 +24,7 @@ class AddTaskDialogFragment : BottomSheetDialogFragment() {
 
     private var _binding: DialogAddTaskBinding? = null
     private val binding get() = _binding!!
+    private var listener: IAddTaskListener? = null
 
 
     private val viewModel by viewModels<AddTaskDialogViewModel> {
@@ -121,9 +123,16 @@ class AddTaskDialogFragment : BottomSheetDialogFragment() {
         _binding = null
     }
 
+    override fun onDismiss(dialog: DialogInterface) {
+        listener?.onFinish(viewModel.result, viewModel.categoryId)
+        super.onDismiss(dialog)
+    }
+
     companion object {
-        fun newInstance() = AddTaskDialogFragment().also {
-            it.dialog?.setCanceledOnTouchOutside(true)
+        fun newInstance(listener: IAddTaskListener) = AddTaskDialogFragment().also {
+            it.dialog?.setCanceledOnTouchOutside(true).apply {
+                it.listener = listener
+            }
         }
     }
 }

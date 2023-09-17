@@ -19,6 +19,9 @@ interface TaskDao {
     @Delete(entity = TaskEntity::class)
     suspend fun delete(taskEntity: TaskEntity)
 
+    @Query("DELETE FROM task WHERE id = :id")
+    suspend fun delete(id: Int)
+
     @Query("SELECT * FROM task WHERE id = :id")
     fun getTaskEntity(id: Int): LiveData<TaskEntity>
 
