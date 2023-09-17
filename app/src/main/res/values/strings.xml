@@ -36,4 +36,5 @@
     <string name="add">add</string>
     <string name="attachment">Attachment</string>
     <string name="reminder_at">Reminder at</string>
+    <string name="create_new">Create New</string>
 </resources>

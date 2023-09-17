@@ -17,6 +17,14 @@
             app:popEnterAnim="@anim/nav_default_pop_enter_anim"
             app:popExitAnim="@anim/nav_default_pop_exit_anim"
             app:popUpTo="@id/allTaskFragment" />
+        <action
+            android:id="@+id/action_allTaskFragment_to_manageCategoryFragment"
+            app:destination="@id/manageCategoryFragment"
+            app:enterAnim="@anim/nav_default_enter_anim"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
+            app:popExitAnim="@anim/nav_default_pop_exit_anim"
+            app:popUpTo="@id/allTaskFragment" />
     </fragment>
     <fragment
         android:id="@+id/calendarFragment"
@@ -30,4 +38,9 @@
         android:id="@+id/taskDetailFragment"
         android:name="me.lordierclaw.todo2.screen.task.taskdetail.TaskDetailFragment"
         tools:layout="@layout/fragment_task_detail" />
+    <fragment
+        android:id="@+id/manageCategoryFragment"
+        android:name="me.lordierclaw.todo2.screen.task.managecategory.ManageCategoryFragment"
+        android:label="@string/manage_categories"
+        tools:layout="@layout/fragment_manage_category" />
 </navigation>

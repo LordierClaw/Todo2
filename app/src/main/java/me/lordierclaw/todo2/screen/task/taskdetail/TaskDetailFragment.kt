@@ -85,7 +85,7 @@ class TaskDetailFragment : Fragment() {
         binding.taskDetailToolbar.setNavigationOnClickListener { onBackPressed() }
         // Setup task information
         val id: Int = requireArguments().getInt(ARG_TASK_ID)
-        viewModel.setupWithTask(id).observe(viewLifecycleOwner) {
+        viewModel.setupWithTask(id, viewLifecycleOwner).observe(viewLifecycleOwner) {
             setupTaskDetail()
         }
     }
@@ -100,8 +100,8 @@ class TaskDetailFragment : Fragment() {
         binding.taskDetailCategoryBtn.setOnClickListener {
             showCategoryMenu(binding.taskDetailCategoryBtn)
         }
-        viewModel.category.observe(viewLifecycleOwner) {binding.taskDetailCategoryBtn.text =
-            it?.name ?: getString(R.string.none)
+        viewModel.category.observe(viewLifecycleOwner) {
+            binding.taskDetailCategoryBtn.text = it?.name ?: getString(R.string.none)
         }
         // Title
         binding.taskDetailTitleTxt.setText(viewModel.taskName)

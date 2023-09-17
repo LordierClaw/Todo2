@@ -1,10 +1,11 @@
 package me.lordierclaw.todo2.screen.task.taskdetail
 
 import android.app.Application
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.liveData
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,35 +15,45 @@ import me.lordierclaw.todo2.data.base.model.Category
 import me.lordierclaw.todo2.data.base.model.Subtask
 import me.lordierclaw.todo2.data.base.model.Task
 import me.lordierclaw.todo2.data.base.repository.IRepositoryBuilder
+import me.lordierclaw.todo2.utils.observeOnce
 import java.util.Date
 
 class TaskDetailViewModel(private val repositoryBuilder: IRepositoryBuilder): ViewModel() {
     private var taskId: Int = -1
     var taskStatus: Boolean = false
-    var categoryId: Int? = null
+    private var categoryId: Int? = null
     lateinit var taskName: String
     var taskDate: Date? = null
     var taskRepeat: String? = null
     var taskNote: String? = null
     val subtasks: LiveData<List<Subtask>>
         get() = repositoryBuilder.subtaskRepository.getAllSubtaskOfTask(taskId)
+
+    private val _category: MutableLiveData<Category?> = MutableLiveData()
+
     val category: LiveData<Category?>
-        get() = liveData {
-            if (categoryId == null) emit(null)
-            else repositoryBuilder.categoryRepository.getCategory(categoryId!!)
-        }
+        get() = _category
     lateinit var attachments: List<Attachment>
 
-    fun setupWithTask(id: Int): LiveData<Task> {
+    fun setupWithTask(id: Int, lifecycleOwner: LifecycleOwner): LiveData<Task> {
         taskId = id
         return repositoryBuilder.taskRepository.getTask(taskId).apply {
-            observeForever {
+            observeOnce(lifecycleOwner) {
                 taskStatus = it.status
                 taskName = it.name
                 categoryId = it.categoryId
+                observeCategoryLiveData(lifecycleOwner)
                 taskDate = it.dueDate
                 taskRepeat = it.repeat
                 taskNote = it.notes
+            }
+        }
+    }
+
+    private fun observeCategoryLiveData(lifecycleOwner: LifecycleOwner) {
+        categoryId?.let { id ->
+            repositoryBuilder.categoryRepository.getCategory(id).observeOnce(lifecycleOwner) {
+                _category.value = it
             }
         }
     }
@@ -87,6 +98,7 @@ class TaskDetailViewModel(private val repositoryBuilder: IRepositoryBuilder): Vi
     }
 
     fun setCategory(category: Category?) {
+        _category.value = category
         categoryId = category?.id
     }
 

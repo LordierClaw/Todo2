@@ -52,7 +52,9 @@ class AllTaskFragment : Fragment() {
                 showTaskDetail(task)
             }
         })
-        viewModel.tasks.observe(viewLifecycleOwner) { taskAdapter.setDataWithDiffUtil(it) }
+        viewModel.tasks.observe(viewLifecycleOwner) {
+            taskAdapter.setDataWithDiffUtil(it)
+        }
     }
 
     private fun showTaskDetail(task: Task) {
@@ -66,8 +68,16 @@ class AllTaskFragment : Fragment() {
         val popup = PopupMenu(context, view)
         popup.menuInflater.inflate(menuRes, popup.menu)
         popup.setOnMenuItemClickListener {
-            Toast.makeText(context, "This feature is not available", Toast.LENGTH_SHORT).show()
-            true
+            when (it.itemId) {
+                R.id.overflow_manage_categories_menu -> {
+                    findNavController().navigate(R.id.action_allTaskFragment_to_manageCategoryFragment)
+                    true
+                }
+                else -> {
+                    Toast.makeText(context, "This feature is not available", Toast.LENGTH_SHORT).show()
+                    true
+                }
+            }
         }
         popup.show()
     }
