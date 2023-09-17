@@ -25,8 +25,13 @@ class LocalTaskRepository(private val dao: TaskDao): ITaskRepository {
     }
 
     override fun getAllTask(): LiveData<List<Task>> {
-        val taskEntities = dao.getAllTaskEntity()
-        return taskEntities.map { list ->
+        return dao.getAllTaskEntity().map { list ->
+            list.map { it.toTask() }
+        }
+    }
+
+    override fun getAllTaskOfCategory(categoryId: Int): LiveData<List<Task>> {
+        return dao.getAllTaskOfCategory(categoryId).map { list ->
             list.map { it.toTask() }
         }
     }

@@ -5,10 +5,8 @@ import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
-import androidx.room.Transaction
 import androidx.room.Update
 import me.lordierclaw.todo2.data.local.entity.CategoryEntity
-import me.lordierclaw.todo2.data.local.entity.CategoryWithTaskEntity
 
 @Dao
 interface CategoryDao {
@@ -23,10 +21,6 @@ interface CategoryDao {
 
     @Query("SELECT * FROM category WHERE id = :id")
     fun getCategoryEntity(id: Int): LiveData<CategoryEntity>
-
-    @Transaction
-    @Query("SELECT * FROM category WHERE id = :id")
-    fun getCategoryWithTasksEntity(id: Int): LiveData<CategoryWithTaskEntity>
 
     @Query("SELECT * FROM category")
     fun getAllCategoryEntity(): LiveData<List<CategoryEntity>>

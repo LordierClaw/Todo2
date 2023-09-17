@@ -2,6 +2,7 @@ package me.lordierclaw.todo2.screen
 
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -49,23 +50,48 @@ class MainActivity : AppCompatActivity() {
         val headerTitle = navDrawer.getHeaderView(0).findViewById<TextView>(R.id.drawer_header_title)
         headerTitle.text = getString(R.string.hello_s, "User")
         viewModel.getAllCategory().observe(this) { list ->
+            // Create menu
             navDrawer.menu.clear()
             navDrawer.inflateMenu(R.menu.drawer_menu)
             val menu: Menu = navDrawer.menu
+            menu.add(R.id.drawer_category_menu, 0, 0,  getString(R.string.all)).apply {
+                setIcon(R.drawable.ic_list_alt)
+                isCheckable = true
+            }
             list.forEach { category ->
-                menu.add(R.id.drawer_category_menu, category.id, 0, category.name).setIcon(R.drawable.ic_list_alt)
+                menu.add(R.id.drawer_category_menu, category.id, 0, category.name).apply {
+                    setIcon(R.drawable.ic_list_alt)
+                    isCheckable = true
+                }
+            }
+            // Handle selected event
+            navDrawer.setNavigationItemSelectedListener {
+                binding.root.close()
+                when(it.itemId) {
+                    R.id.drawer_donate_menu -> {
+                        false
+                    }
+                    R.id.drawer_info_menu -> {
+                        false
+                    }
+                    R.id.drawer_setting_menu -> {
+                        false
+                    }
+                    R.id.drawer_theme_menu -> {
+                        false
+                    }
+                    else -> {
+                        viewModel.setCategoryFilter(it.itemId, this)
+                        true
+                    }
+                }
+            }
+             viewModel.categoryId.observe(this) observerCategoryId@ {  id ->
+                val item: MenuItem = navDrawer.menu.findItem(id) ?: return@observerCategoryId
+                if (item.isChecked) return@observerCategoryId
+                else item.isChecked = true
             }
         }
-//        navDrawer.setNavigationItemSelectedListener {
-//            it.isChecked = when(it.itemId) {
-//                R.id.drawer_category_all -> {
-//                    true
-//                }
-//                else -> false
-//            }
-//            binding.root.close()
-//            it.isChecked
-//        }
     }
 
     private fun setupBottomNav() {

@@ -18,6 +18,7 @@
             android:id="@+id/all_task_chip_group"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            app:singleSelection="true"
             app:singleLine="true"
             app:chipSpacing="8dp"/>
     </HorizontalScrollView>

@@ -9,12 +9,14 @@ import android.widget.Toast
 import androidx.annotation.MenuRes
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.chip.Chip
 import me.lordierclaw.todo2.R
 import me.lordierclaw.todo2.data.base.model.Task
 import me.lordierclaw.todo2.databinding.FragmentAllTaskBinding
+import me.lordierclaw.todo2.screen.MainActivityViewModel
 import me.lordierclaw.todo2.screen.task.recyclerview.task.ITaskOnCheckListener
 import me.lordierclaw.todo2.screen.task.recyclerview.task.ITaskOnClickListener
 import me.lordierclaw.todo2.screen.task.recyclerview.task.TaskAdapter
@@ -25,7 +27,9 @@ class AllTaskFragment : Fragment() {
     private var _binding: FragmentAllTaskBinding? = null
     private val binding get() = _binding!!
 
-    private val viewModel by viewModels<AllTaskViewModel> { AllTaskViewModel.Factory(requireActivity().application) }
+    private val viewModel by activityViewModels<MainActivityViewModel> {
+        MainActivityViewModel.Factory(requireActivity().application)
+    }
 
     private lateinit var taskAdapter: TaskAdapter
 
@@ -54,6 +58,44 @@ class AllTaskFragment : Fragment() {
         })
         viewModel.tasks.observe(viewLifecycleOwner) {
             taskAdapter.setDataWithDiffUtil(it)
+        }
+        initCategoryChipGroup()
+    }
+
+    private fun initCategoryChipGroup() {
+        viewModel.getAllCategory().observe(viewLifecycleOwner) { list ->
+            // Create menu
+            binding.allTaskChipGroup.removeAllViews()
+            val allChip: Chip = Chip(context).apply {
+                id = 0
+                text = getString(R.string.all)
+                isCheckable = true
+            }
+            binding.allTaskChipGroup.addView(allChip)
+            list.forEach {
+                val chip: Chip = Chip(context).apply {
+                    id = it.id
+                    text = it.name
+                    isCheckable = true
+                }
+                binding.allTaskChipGroup.addView(chip)
+            }
+            // Handle click and category change event
+            binding.allTaskChipGroup.setOnCheckedStateChangeListener { _, checkedIds ->
+                if (checkedIds.size == 0) return@setOnCheckedStateChangeListener
+                val id = checkedIds[0]
+                viewModel.setCategoryFilter(id, viewLifecycleOwner)
+            }
+            viewModel.categoryId.observe(viewLifecycleOwner) observeCategoryId@ { id ->
+                val checkedIds = binding.allTaskChipGroup.checkedChipIds
+                if (checkedIds.size == 0) {
+                    binding.allTaskChipGroup.check(id)
+                    return@observeCategoryId
+                }
+                val chipId = checkedIds[0]
+                if (chipId == id) return@observeCategoryId
+                else binding.allTaskChipGroup.check(id)
+            }
         }
     }
 
