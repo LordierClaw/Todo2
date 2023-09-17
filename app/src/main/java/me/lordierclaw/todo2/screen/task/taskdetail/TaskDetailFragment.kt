@@ -38,6 +38,8 @@ class TaskDetailFragment : Fragment() {
         TaskDetailViewModel.Factory(requireActivity().application)
     }
 
+    private var isEdited: Boolean = false
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         // onBackPress
@@ -52,6 +54,10 @@ class TaskDetailFragment : Fragment() {
 
     private fun onBackPressed() {
         val navController = findNavController()
+        if (!isEdited) {
+            navController.popBackStack()
+            return
+        }
         context?.let {
             MaterialAlertDialogBuilder(it)
                 .setMessage("Do you want to save these change?")
@@ -99,6 +105,7 @@ class TaskDetailFragment : Fragment() {
         // Category
         binding.taskDetailCategoryBtn.setOnClickListener {
             showCategoryMenu(binding.taskDetailCategoryBtn)
+            isEdited = true
         }
         viewModel.category.observe(viewLifecycleOwner) {
             binding.taskDetailCategoryBtn.text = it?.name ?: getString(R.string.none)
@@ -106,33 +113,46 @@ class TaskDetailFragment : Fragment() {
         // Title
         binding.taskDetailTitleTxt.setText(viewModel.taskName)
         binding.taskDetailTitleTxt.setOnFocusChangeListener { _, hasFocus ->
-            if (!hasFocus) viewModel.taskName = binding.taskDetailTitleTxt.text.toString().trim()
+            if (!hasFocus) {
+                viewModel.taskName = binding.taskDetailTitleTxt.text.toString().trim()
+                isEdited = true
+            }
         }
         // Due date
         bindTaskDueDateAndRepeat()
-        binding.taskDetailDueDateBtn.setOnClickListener { pickNewDate() }
+        binding.taskDetailDueDateBtn.setOnClickListener {
+            pickNewDate()
+            isEdited = true
+        }
         // Repeat
         binding.taskDetailRepeatTxt.text = viewModel.taskRepeat ?: getString(R.string.none)
-        binding.taskDetailRepeatBtn.setOnClickListener { pickNewDate() }
+        binding.taskDetailRepeatBtn.setOnClickListener {
+            pickNewDate()
+            isEdited = true
+        }
         // Note
         binding.taskDetailNoteTxt.setText(viewModel.taskNote ?: getString(R.string.none))
         binding.taskDetailNoteTxt.setOnFocusChangeListener { _, hasFocus ->
             if (!hasFocus) {
                 viewModel.taskNote = binding.taskDetailNoteTxt.text.toString().trim()
+                isEdited = true
             }
         }
         // Subtask recycler view
         val subtaskAdapter = SubtaskAdapter(object : ISubtaskListener{
             override fun onCheck(subtask: Subtask) {
                 viewModel.updateSubtask(subtask)
+                isEdited = true
             }
 
             override fun removeButtonOnClick(subtask: Subtask) {
                 viewModel.deleteSubtask(subtask)
+                isEdited = true
             }
 
             override fun afterEditName(subtask: Subtask) {
                 viewModel.updateSubtask(subtask)
+                isEdited = true
             }
         })
         viewModel.subtasks.observe(viewLifecycleOwner) {
@@ -142,7 +162,10 @@ class TaskDetailFragment : Fragment() {
             layoutManager = LinearLayoutManager(context)
             adapter = subtaskAdapter
         }
-        binding.taskDetailAddSubtaskBtn.setOnClickListener { viewModel.newSubtask() }
+        binding.taskDetailAddSubtaskBtn.setOnClickListener {
+            viewModel.newSubtask()
+            isEdited = true
+        }
         // Attachment
     }
 

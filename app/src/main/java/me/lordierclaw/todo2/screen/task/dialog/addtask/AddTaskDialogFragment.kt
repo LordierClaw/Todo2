@@ -104,6 +104,7 @@ class AddTaskDialogFragment : BottomSheetDialogFragment() {
             }
         }
         popupMenu.setOnMenuItemClickListener {
+            binding.dialogAddTaskCategoryBtn.text = it.title
             if (it.title == getString(R.string.none) && it.itemId == 0) {
                 viewModel.categoryId = null
                 true
@@ -111,7 +112,6 @@ class AddTaskDialogFragment : BottomSheetDialogFragment() {
                 viewModel.categoryId = it.itemId
                 true
             }
-
         }
         popupMenu.show()
     }
