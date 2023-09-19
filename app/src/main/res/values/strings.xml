@@ -40,4 +40,6 @@
     <string name="mark_as_completed">Mark as completed</string>
     <string name="mark_as_not_completed">Mark as not completed</string>
     <string name="delete">Delete</string>
+    <string name="enter_task_name">Enter task name...</string>
+    <string name="creation_time">Creation time</string>
 </resources>

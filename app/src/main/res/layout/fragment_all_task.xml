@@ -32,8 +32,34 @@
         style="?attr/materialIconButtonStyle"
         app:icon="@drawable/ic_more_vert"/>
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/all_task_search_back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        style="?attr/materialIconButtonStyle"
+        app:icon="@drawable/ic_back"
+        android:visibility="gone"/>
+
+    <androidx.appcompat.widget.SearchView
+        android:id="@+id/all_task_searchview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginVertical="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/search_background"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="@id/all_task_search_back_btn"
+        app:layout_constraintStart_toEndOf="@id/all_task_search_back_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:queryHint="@string/enter_task_name"
+        android:focusable="true"
+        app:iconifiedByDefault="false"
+        android:focusableInTouchMode="true"
+        android:visibility="gone"/>
+
     <androidx.recyclerview.widget.RecyclerView
-        android:paddingTop="8dp"
         android:paddingHorizontal="8dp"
         android:id="@+id/all_task_rcv"
         android:layout_width="match_parent"

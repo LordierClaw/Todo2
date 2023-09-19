@@ -11,4 +11,5 @@ interface ITaskRepository {
     fun getTask(id: Int): LiveData<Task>
     fun getAllTask(): LiveData<List<Task>>
     fun getAllTaskOfCategory(categoryId: Int): LiveData<List<Task>>
+    fun getAllTaskContainsTitle(keyword: String): LiveData<List<Task>>
 }

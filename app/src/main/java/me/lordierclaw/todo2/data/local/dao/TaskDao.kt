@@ -30,4 +30,7 @@ interface TaskDao {
 
     @Query("SELECT * FROM task WHERE category_id = :categoryId")
     fun getAllTaskOfCategory(categoryId: Int): LiveData<List<TaskEntity>>
+
+    @Query("SELECT * FROM task WHERE name LIKE '%' || :keyword || '%'")
+    fun getAllTaskContainsTitle(keyword: String): LiveData<List<TaskEntity>>
 }

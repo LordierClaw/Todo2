@@ -40,4 +40,10 @@ class LocalTaskRepository(private val dao: TaskDao): ITaskRepository {
         }
     }
 
+    override fun getAllTaskContainsTitle(keyword: String): LiveData<List<Task>> {
+        return dao.getAllTaskContainsTitle(keyword).map { list ->
+            list.map { it.toTask() }
+        }
+    }
+
 }

@@ -7,12 +7,14 @@
     <item android:id="@+id/alltask_overflow_sort_by_menu"
         android:title="@string/sort_by">
         <menu>
+            <item android:id="@+id/alltask_overflow_sort_by_creation_time"
+                android:title="@string/creation_time" />
             <item android:id="@+id/alltask_overflow_sort_by_date_time"
-                android:title="@string/due_date_time"/>
+                android:title="@string/due_date_time" />
             <item android:id="@+id/alltask_overflow_sort_by_alpha_az"
-                android:title="@string/alphabetical_a_z"/>
+                android:title="@string/alphabetical_a_z" />
             <item android:id="@+id/alltask_overflow_sort_by_alpha_za"
-                android:title="@string/alphabetical_z_a"/>
+                android:title="@string/alphabetical_z_a" />
         </menu>
     </item>
 </menu>

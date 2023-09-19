@@ -15,6 +15,9 @@ import me.lordierclaw.todo2.data.base.repository.IRepositoryBuilder
 import me.lordierclaw.todo2.utils.observeOnce
 
 class MainActivityViewModel(private val repositoryBuilder: IRepositoryBuilder) : ViewModel() {
+    enum class TaskSort {
+        A_Z, Z_A, DATE_TIME, CREATION_TIME
+    }
 
     private var _tasks: MutableLiveData<List<Task>> = MutableLiveData()
     val tasks: LiveData<List<Task>> get() = _tasks
@@ -30,15 +33,62 @@ class MainActivityViewModel(private val repositoryBuilder: IRepositoryBuilder) :
         }
     }
 
+    private var getAllTask: () -> LiveData<List<Task>> = { repositoryBuilder.taskRepository.getAllTask() }
+
+    private fun updateAllTask(lifecycleOwner: LifecycleOwner) {
+        getAllTask.invoke().observeOnce(lifecycleOwner) {
+            _tasks.value = it
+        }
+    }
+
     fun setCategoryFilter(id: Int, lifecycleOwner: LifecycleOwner) {
         _categoryId.value = id
-        if (_categoryId.value == 0) {
-            repositoryBuilder.taskRepository.getAllTask().observeOnce(lifecycleOwner) {
-                _tasks.value = it
+        getAllTask =
+            if (_categoryId.value == 0) {
+                { repositoryBuilder.taskRepository.getAllTask() }
+            } else {
+                { repositoryBuilder.taskRepository.getAllTaskOfCategory(id) }
             }
-        } else {
-            repositoryBuilder.taskRepository.getAllTaskOfCategory(id).observeOnce(lifecycleOwner) {
-                _tasks.value = it
+        updateAllTask(lifecycleOwner)
+    }
+
+    fun setTaskFilter(keyword: String, lifecycleOwner: LifecycleOwner) {
+        val key: String = keyword.trim()
+        getAllTask =
+            if (key == "") {
+                { repositoryBuilder.taskRepository.getAllTask() }
+            } else {
+                { repositoryBuilder.taskRepository.getAllTaskContainsTitle(key) }
+            }
+        updateAllTask(lifecycleOwner)
+    }
+
+    fun sortCurrentList(sortType: TaskSort, lifecycleOwner: LifecycleOwner) {
+        getAllTask.invoke().observeOnce(lifecycleOwner) {
+            when (sortType) {
+                TaskSort.A_Z -> {
+                    _tasks.value = it.sortedWith { p0, p1 ->
+                        p0.name.compareTo(p1.name)
+                    }
+                }
+                TaskSort.Z_A -> {
+                    _tasks.value = it.sortedWith { p0, p1 ->
+                        p1.name.compareTo(p0.name)
+                    }
+                }
+                TaskSort.DATE_TIME -> {
+                    _tasks.value = it.sortedWith { p0, p1 ->
+                        if (p0.dueDate != null && p1.dueDate != null) {
+                            p0.dueDate.compareTo(p1.dueDate)
+                        } else {
+                            if (p0.dueDate == null) 1
+                            else 0
+                        }
+                    }
+                }
+                TaskSort.CREATION_TIME -> {
+                    _tasks.value = it
+                }
             }
         }
     }

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.appcompat.widget.SearchView
 import android.widget.Toast
 import androidx.annotation.MenuRes
 import androidx.core.os.bundleOf
@@ -43,23 +44,45 @@ class AllTaskFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         binding.allTaskMenuBtn.setOnClickListener { showOverflowMenu(it, R.menu.alltask_overflow_menu) }
-        taskAdapter = TaskAdapter()
-        binding.allTaskRcv.layoutManager = LinearLayoutManager(context)
-        binding.allTaskRcv.adapter = taskAdapter
-        taskAdapter.setOnCheckListener(object : ITaskOnCheckListener {
-            override fun onCheck(status: Boolean, task: Task) {
-                viewModel.updateTask(task.also { it.status = status })
-            }
-        })
-        taskAdapter.setOnClickListener(object : ITaskOnClickListener {
-            override fun onClick(task: Task) {
-                showTaskDetail(task)
-            }
-        })
-        viewModel.tasks.observe(viewLifecycleOwner) {
-            taskAdapter.setDataWithDiffUtil(it)
-        }
+        initTaskRecyclerView()
         initCategoryChipGroup()
+        initSearchBar()
+    }
+
+    private fun initSearchBar() {
+        binding.allTaskSearchBackBtn.setOnClickListener { showSearchBar(false) }
+        binding.allTaskSearchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(p0: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(p0: String?): Boolean {
+                if (p0 == null) return false
+                viewModel.setTaskFilter(p0, viewLifecycleOwner)
+                return true
+            }
+        })
+    }
+
+    private fun initTaskRecyclerView() {
+        taskAdapter = TaskAdapter()
+        binding.allTaskRcv.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = taskAdapter
+        }
+        taskAdapter.apply {
+            setOnCheckListener(object : ITaskOnCheckListener {
+                override fun onCheck(status: Boolean, task: Task) {
+                    viewModel.updateTask(task.also { it.status = status })
+                }
+            })
+            setOnClickListener(object : ITaskOnClickListener {
+                override fun onClick(task: Task) {
+                    showTaskDetail(task)
+                }
+            })
+        }
+        viewModel.tasks.observe(viewLifecycleOwner) { taskAdapter.setDataWithDiffUtil(it) }
     }
 
     private fun initCategoryChipGroup() {
@@ -115,13 +138,45 @@ class AllTaskFragment : Fragment() {
                     findNavController().navigate(R.id.action_allTaskFragment_to_manageCategoryFragment)
                     true
                 }
-                else -> {
-                    Toast.makeText(context, "This feature is not available", Toast.LENGTH_SHORT).show()
+                R.id.alltask_overflow_search_menu -> {
+                    showSearchBar(true)
                     true
                 }
+                R.id.alltask_overflow_sort_by_creation_time -> {
+                    viewModel.sortCurrentList(MainActivityViewModel.TaskSort.CREATION_TIME, viewLifecycleOwner)
+                    true
+                }
+                R.id.alltask_overflow_sort_by_date_time -> {
+                    viewModel.sortCurrentList(MainActivityViewModel.TaskSort.DATE_TIME, viewLifecycleOwner)
+                    true
+                }
+                R.id.alltask_overflow_sort_by_alpha_az -> {
+                    viewModel.sortCurrentList(MainActivityViewModel.TaskSort.A_Z, viewLifecycleOwner)
+                    true
+                }
+                R.id.alltask_overflow_sort_by_alpha_za -> {
+                    viewModel.sortCurrentList(MainActivityViewModel.TaskSort.Z_A, viewLifecycleOwner)
+                    true
+                }
+                else -> { false }
             }
         }
         popup.show()
+    }
+
+    private fun showSearchBar(value: Boolean) {
+        if (value) {
+            binding.allTaskChipGroup.visibility = View.INVISIBLE
+            binding.allTaskMenuBtn.visibility = View.INVISIBLE
+            binding.allTaskSearchview.visibility = View.VISIBLE
+            binding.allTaskSearchBackBtn.visibility = View.VISIBLE
+        } else {
+            binding.allTaskSearchview.setQuery("", false)
+            binding.allTaskSearchview.visibility = View.GONE
+            binding.allTaskSearchBackBtn.visibility = View.GONE
+            binding.allTaskChipGroup.visibility = View.VISIBLE
+            binding.allTaskMenuBtn.visibility = View.VISIBLE
+        }
     }
 
     override fun onDestroyView() {
