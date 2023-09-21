@@ -6,6 +6,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import androidx.room.Update
+import me.lordierclaw.todo2.data.base.model.CategoryCount
 import me.lordierclaw.todo2.data.local.entity.TaskEntity
 
 @Dao
@@ -33,4 +34,13 @@ interface TaskDao {
 
     @Query("SELECT * FROM task WHERE name LIKE '%' || :keyword || '%'")
     fun getAllTaskContainsTitle(keyword: String): LiveData<List<TaskEntity>>
+
+    @Query("SELECT * FROM task WHERE due_date BETWEEN :startTime AND :endTime")
+    fun getAllTaskInTimeRange(startTime: Long, endTime: Long): LiveData<List<TaskEntity>>
+
+    @Query("SELECT COUNT(*) FROM task WHERE status = :status")
+    fun getTaskCountByStatus(status: Boolean): LiveData<Int>
+
+    @Query("SELECT category.name AS categoryName, COUNT(task.id) AS taskCount FROM category LEFT JOIN task ON category.id = task.category_id GROUP BY categoryName")
+    fun getCategoryCounts(): LiveData<List<CategoryCount>>
 }

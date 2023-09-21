@@ -2,6 +2,7 @@ package me.lordierclaw.todo2.data.local.repository
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.map
+import me.lordierclaw.todo2.data.base.model.CategoryCount
 import me.lordierclaw.todo2.data.base.model.Task
 import me.lordierclaw.todo2.data.base.repository.ITaskRepository
 import me.lordierclaw.todo2.data.local.dao.TaskDao
@@ -44,6 +45,20 @@ class LocalTaskRepository(private val dao: TaskDao): ITaskRepository {
         return dao.getAllTaskContainsTitle(keyword).map { list ->
             list.map { it.toTask() }
         }
+    }
+
+    override fun getAllTaskInTimeRange(startTime: Long, endTime: Long): LiveData<List<Task>> {
+        return dao.getAllTaskInTimeRange(startTime, endTime).map { list ->
+            list.map { it.toTask() }
+        }
+    }
+
+    override fun getTaskCountByStatus(status: Boolean): LiveData<Int> {
+        return dao.getTaskCountByStatus(status)
+    }
+
+    override fun getCategoryCounts(): LiveData<List<CategoryCount>> {
+        return dao.getCategoryCounts()
     }
 
 }
