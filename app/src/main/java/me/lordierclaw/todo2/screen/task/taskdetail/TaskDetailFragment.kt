@@ -48,6 +48,7 @@ class TaskDetailFragment : Fragment() {
             object : OnBackPressedCallback(true) {
                 override fun handleOnBackPressed() {
                     onBackPressed()
+                    this.remove()
                 }
             }
         )

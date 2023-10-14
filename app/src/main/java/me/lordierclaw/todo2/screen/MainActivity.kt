@@ -72,19 +72,19 @@ class MainActivity : AppCompatActivity() {
                 when(it.itemId) {
                     R.id.drawer_donate_menu -> {
                         Toast.makeText(applicationContext, "This feature is not available at the moment!", Toast.LENGTH_SHORT).show()
-                        true
+                        false
                     }
                     R.id.drawer_info_menu -> {
                         Toast.makeText(applicationContext, "This feature is not available at the moment!", Toast.LENGTH_SHORT).show()
-                        true
+                        false
                     }
                     R.id.drawer_setting_menu -> {
                         Toast.makeText(applicationContext, "This feature is not available at the moment!", Toast.LENGTH_SHORT).show()
-                        true
+                        false
                     }
                     R.id.drawer_theme_menu -> {
                         Toast.makeText(applicationContext, "This feature is not available at the moment!", Toast.LENGTH_SHORT).show()
-                        true
+                        false
                     }
                     else -> {
                         viewModel.setCategoryFilter(it.itemId, this)
@@ -107,7 +107,7 @@ class MainActivity : AppCompatActivity() {
         bottomNav.setupWithNavController(navHost.navController)
         bottomNav.setOnItemSelectedListener {
             if (it.itemId == R.id.menuBtn) {
-                binding.root.open()
+                openNavDrawer()
                 false
             } else {
                 onNavDestinationSelected(it, navHost.navController)
@@ -127,14 +127,18 @@ class MainActivity : AppCompatActivity() {
                 binding.bottomNav.visibility = View.GONE
             }
         }
-        onBackPressedDispatcher.addCallback (this) { onBackClick() }
     }
 
-    private fun onBackClick() {
-        if (binding.root.isDrawerOpen(GravityCompat.START)) {
-            binding.root.close()
-        } else {
-            onBackPressedDispatcher.onBackPressed()
+    private fun openNavDrawer() {
+        binding.root.open()
+        onBackPressedDispatcher.addCallback (this) {
+            if (binding.root.isDrawerOpen(GravityCompat.START)) {
+                binding.root.close()
+                this.remove()
+            } else {
+                this.remove()
+                onBackPressed()
+            }
         }
     }
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.MenuRes
 import androidx.appcompat.widget.SearchView
 import androidx.core.os.bundleOf
@@ -49,7 +50,7 @@ class AllTaskFragment : Fragment() {
     }
 
     private fun initSearchBar() {
-        binding.allTaskSearchBackBtn.setOnClickListener { showSearchBar(false) }
+        binding.allTaskSearchBackBtn.setOnClickListener { hideSearchBar() }
         binding.allTaskSearchview.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(p0: String?): Boolean {
                 return false
@@ -138,7 +139,7 @@ class AllTaskFragment : Fragment() {
                     true
                 }
                 R.id.alltask_overflow_search_menu -> {
-                    showSearchBar(true)
+                    showSearchBar()
                     true
                 }
                 R.id.alltask_overflow_sort_by_creation_time -> {
@@ -163,19 +164,32 @@ class AllTaskFragment : Fragment() {
         popup.show()
     }
 
-    private fun showSearchBar(value: Boolean) {
-        if (value) {
-            binding.allTaskChipGroup.visibility = View.INVISIBLE
-            binding.allTaskMenuBtn.visibility = View.INVISIBLE
-            binding.allTaskSearchview.visibility = View.VISIBLE
-            binding.allTaskSearchBackBtn.visibility = View.VISIBLE
-        } else {
-            binding.allTaskSearchview.setQuery("", false)
-            binding.allTaskSearchview.visibility = View.GONE
-            binding.allTaskSearchBackBtn.visibility = View.GONE
-            binding.allTaskChipGroup.visibility = View.VISIBLE
-            binding.allTaskMenuBtn.visibility = View.VISIBLE
-        }
+    private fun showSearchBar() {
+        binding.allTaskChipGroup.visibility = View.INVISIBLE
+        binding.allTaskMenuBtn.visibility = View.INVISIBLE
+        binding.allTaskSearchview.visibility = View.VISIBLE
+        binding.allTaskSearchBackBtn.visibility = View.VISIBLE
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    if (binding.allTaskSearchview.visibility == View.VISIBLE) {
+                        hideSearchBar()
+                        this.remove()
+                    } else {
+                        this.remove()
+                        handleOnBackPressed()
+                    }
+                }
+            }
+        )
+    }
+
+    private fun hideSearchBar() {
+        binding.allTaskSearchview.setQuery("", false)
+        binding.allTaskSearchview.visibility = View.GONE
+        binding.allTaskSearchBackBtn.visibility = View.GONE
+        binding.allTaskChipGroup.visibility = View.VISIBLE
+        binding.allTaskMenuBtn.visibility = View.VISIBLE
     }
 
     override fun onDestroyView() {
