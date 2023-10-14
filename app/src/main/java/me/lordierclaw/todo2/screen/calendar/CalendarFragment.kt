@@ -62,6 +62,8 @@ class CalendarFragment : Fragment() {
             }.time
             viewModel.setDate(date, viewLifecycleOwner)
         }
+        val date = Date(binding.calendarView.date)
+        viewModel.setDate(date, viewLifecycleOwner)
     }
 
     override fun onDestroyView() {

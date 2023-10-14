@@ -71,16 +71,20 @@ class MainActivity : AppCompatActivity() {
                 binding.root.close()
                 when(it.itemId) {
                     R.id.drawer_donate_menu -> {
-                        false
+                        Toast.makeText(applicationContext, "This feature is not available at the moment!", Toast.LENGTH_SHORT).show()
+                        true
                     }
                     R.id.drawer_info_menu -> {
-                        false
+                        Toast.makeText(applicationContext, "This feature is not available at the moment!", Toast.LENGTH_SHORT).show()
+                        true
                     }
                     R.id.drawer_setting_menu -> {
-                        false
+                        Toast.makeText(applicationContext, "This feature is not available at the moment!", Toast.LENGTH_SHORT).show()
+                        true
                     }
                     R.id.drawer_theme_menu -> {
-                        false
+                        Toast.makeText(applicationContext, "This feature is not available at the moment!", Toast.LENGTH_SHORT).show()
+                        true
                     }
                     else -> {
                         viewModel.setCategoryFilter(it.itemId, this)
@@ -134,22 +138,26 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun showAddTaskDialog() {
+        val dialog = AddTaskDialogFragment.newInstance(object : IAddTaskListener {
+            override fun onFinish(result: Int, categoryId: Int?) {
+                if (result == CallbackResult.SUCCESS)
+                    viewModel.setCategoryFilter(categoryId ?: 0, this@MainActivity)
+                fab.visibility = View.VISIBLE
+            }
+        })
+        dialog.show(supportFragmentManager, "add_task_dialog")
+        fab.visibility = View.GONE
+    }
+
     private fun fabOnClick() {
         when (navHost.navController.currentDestination?.id) {
             R.id.allTaskFragment -> {
-                val dialog = AddTaskDialogFragment.newInstance(object : IAddTaskListener {
-                    override fun onFinish(result: Int, categoryId: Int?) {
-                        if (result == CallbackResult.SUCCESS)
-                            viewModel.setCategoryFilter(categoryId ?: 0, this@MainActivity)
-                    }
-                })
-                dialog.show(supportFragmentManager, "add_task_dialog")
+                showAddTaskDialog()
             }
             R.id.calendarFragment -> {
-                Toast.makeText(applicationContext,
-                    "This feature is not available",
-                    Toast.LENGTH_SHORT
-                ).show()
+                navHost.navController.navigate(R.id.allTaskFragment)
+                showAddTaskDialog()
             }
         }
     }

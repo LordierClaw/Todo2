@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupMenu
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -154,6 +155,11 @@ class TaskDetailFragment : Fragment() {
             pickNewDate()
             isEdited = true
         }
+        // Reminder at
+        binding.taskDetailReminderTxt.text = getString(R.string.none)
+        binding.taskDetailReminderBtn.setOnClickListener {
+            Toast.makeText(context, "This feature is not available at the moment!", Toast.LENGTH_SHORT).show()
+        }
         // Repeat
         binding.taskDetailRepeatTxt.text = viewModel.taskRepeat ?: getString(R.string.none)
         binding.taskDetailRepeatBtn.setOnClickListener {
@@ -197,6 +203,9 @@ class TaskDetailFragment : Fragment() {
             isEdited = true
         }
         // Attachment
+        binding.taskDetailAttachmentBtn.setOnClickListener {
+            Toast.makeText(context, "This feature is not available at the moment!", Toast.LENGTH_SHORT).show()
+        }
     }
 
     private fun pickNewDate() {

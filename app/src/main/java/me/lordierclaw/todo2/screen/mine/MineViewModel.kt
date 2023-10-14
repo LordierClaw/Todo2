@@ -44,7 +44,7 @@ class MineViewModel(private val repositoryBuilder: IRepositoryBuilder): ViewMode
                 }
             }
             var otherCount = 0
-            for (i in 5..sortedList.size) {
+            for (i in 5..< sortedList.size) {
                 otherCount += sortedList[i].taskCount
             }
             entries.add(PieEntry(otherCount.toFloat(), "Others"))
